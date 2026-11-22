@@ -1,7 +1,7 @@
 import _ from 'underscore';
 import mongoose from 'mongoose';
 
-const setUser = (name) => _.escape(name).trim();
+const sanitizeInput = (string) => _.escape(string).trim();
 
 
 const SpeedrunSchema = new mongoose.Schema({
@@ -9,13 +9,18 @@ const SpeedrunSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true,
-		set: setUser,
+		set: sanitizeInput,
+	},
+	game: {
+		type: String,
+		required: true,
+		trim: true,
+		set: sanitizeInput,
 	},
 	time: {
-
-	},
-	splits: {
-
+		type: Number,
+		min: 0,
+		required: true,
 	},
 	owner: {
 		type: mongoose.Schema.ObjectId,
@@ -32,5 +37,11 @@ const SpeedrunSchema = new mongoose.Schema({
 SpeedrunSchema.statics.toAPI = (doc) => {
 	return {
 		user: doc.user,
+		game: doc.game,
+		time: doc.time,
 	};
 };
+
+
+const SpeedrunModel = mongoose.model('Speedrun', SpeedrunSchema);
+export default SpeedrunModel;

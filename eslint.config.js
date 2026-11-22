@@ -47,7 +47,7 @@ export default defineConfig([
 			'func-names': 'error',
 			'grouped-accessor-pairs': 'error',
 			'guard-for-in': 'error',
-			'id-length': ['error', { 'min': 3, 'exceptions': ['id'] }],
+			'id-length': ['error', { 'min': 3, 'exceptions': ['id','_'] }],
 			'max-classes-per-file': ['error', 1],
 			'max-params': ['error', 5],
 			'new-cap': 'error',
