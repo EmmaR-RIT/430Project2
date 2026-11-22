@@ -1,9 +1,9 @@
 // Node package imports
 import 'dotenv/config';
-import { ExpressHandlebars } from 'express-handlebars';
 import { RedisStore } from 'connect-redis';
 import compression from 'compression';
 import express from 'express';
+import handlebars from 'express-handlebars';
 import helmet from 'helmet';
 import http from 'node:http';
 import mongoose from 'mongoose';
@@ -36,7 +36,7 @@ redisClient.connect().then(() => {
 	// Set up express
 	const app = express();
 
-	app.use(helmet);
+	app.use(helmet());
 	app.use(compression());
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json());
@@ -59,12 +59,12 @@ redisClient.connect().then(() => {
 
 	// Server static routes for static assets
 	const publicPath = path.resolve(import.meta.dirname, '../../public');
-	app.use(serveFavicon(path.resolve(publicPath, 'favicon.ico')));
+	app.use(serveFavicon(path.resolve(publicPath, 'img/favicon.ico')));
 	app.use('/img', express.static(path.resolve(publicPath, 'img')));
 	app.use('/styles', express.static(path.resolve(publicPath, 'styles')));
 	app.use('/scripts', express.static(path.resolve(publicPath, 'scripts')));
 
-	app.engine('handlebars', ExpressHandlebars.engine({ defaultLayout: '' }));
+	app.engine('handlebars', handlebars.engine({ defaultLayout: '' }));
 	app.set('view engine', 'handlebars');
 	app.set('views', path.resolve(import.meta.dirname, '../client/views'));
 
