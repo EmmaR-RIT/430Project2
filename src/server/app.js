@@ -18,10 +18,6 @@ import router from './router.js';
 import socketSetup from './io.js';
 
 
-const publicPath = path.resolve(import.meta.dirname, '../../public');
-const port = process.env.PORT || process.env.NODE_PORT;
-
-
 // Set up MongoDB
 const dbURI = process.env.MONGODB_URI;
 mongoose.connect(dbURI).catch((err) => {
@@ -62,6 +58,7 @@ redisClient.connect().then(() => {
 	}
 
 	// Server static routes for static assets
+	const publicPath = path.resolve(import.meta.dirname, '../../public');
 	app.use(serveFavicon(path.resolve(publicPath, 'favicon.ico')));
 	app.use('/img', express.static(path.resolve(publicPath, 'img')));
 	app.use('/styles', express.static(path.resolve(publicPath, 'styles')));
@@ -77,13 +74,13 @@ redisClient.connect().then(() => {
 	// Set up the http server and socket
 	const server = http.createServer(app);
 	socketSetup(server);
-	server.listen(port, (err) => {
+	server.listen(process.env.PORT || process.env.NODE_PORT, (err) => {
 		if (err) {
 			logger.error('HTTP server failed to initialize');
 			logger.error(err);
 			throw err;
 		}
 
-		logger.debug(`Listening on port ${port}`);
+		logger.debug('Server started and listening');
 	});
 });

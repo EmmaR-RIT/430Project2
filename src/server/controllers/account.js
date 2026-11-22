@@ -1,0 +1,51 @@
+import { AccountModel as Account } from '../models/Account.js';
+import logger from '../logger.js';
+
+// Basic GET route controllers
+export const loginPage = (req, res) => { res.render('login'); };
+
+export const logout = (req, res) => {
+	req.session.destroy();
+	return res.redirect('/');
+};
+
+
+export const login = (req, res) => {
+	const username = `${req.body.username}`;
+	const pass = `${req.body.pass}`;
+
+	// Check if submission is valid
+	if (!username || !pass) return res.status(400).json({ error: 'All fields are required' });
+
+	return Account.authenticate(username, pass, (err, account) => {
+		if (err || !account) return res.status(401).json({ error: 'Wrong username or password' });
+		req.session.account = Account.toAPI(account);
+		return res.json({ redirect: '/' }); // TODO: redirect to main page
+	});
+};
+
+
+export const signup = async (req, res) => {
+	const username = `${req.body.username}`;
+	const pass = `${req.body.pass}`;
+	const pass2 = `${req.body.pass2}`;
+
+	// Check if submission is valid
+	if (!username || !pass || !pass2) return res.status(400).json({ error: 'All fields are required' });
+	if (pass !== pass2) return res.status(400).json({ error: 'Passowrds do not match!' });
+
+	try {
+		const hash = await Account.generateHash(pass);
+		const newAccount = new Account({ username, password: hash });
+		await newAccount.save();
+		req.session.account = Account.toAPI(newAccount);
+		return res.json({ redirect: '/' }); // TODO: redirect to main page
+	}
+	catch (err) {
+		if (err.code === 11000) return res.status(400).json({ error: 'Username already in use!' });
+
+		logger.error('Error saving account to the database');
+		logger.error(err);
+		return res.status(500).json({ error: 'A server error has occurred' });
+	}
+};

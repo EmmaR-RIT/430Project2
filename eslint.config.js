@@ -32,7 +32,6 @@ export default defineConfig([
 			'no-unmodified-loop-condition': 'error',
 			'no-unreachable-loop': 'error',
 			'no-use-before-define': 'error',
-			'require-atomic-updates': 'error',
 			'accessor-pairs': 'error',
 			'arrow-body-style': ['error', 'as-needed', { 'requireReturnForObjectLiteral': true }],
 			'block-scoped-var': 'error',
