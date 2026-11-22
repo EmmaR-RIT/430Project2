@@ -22,6 +22,11 @@ const SpeedrunSchema = new mongoose.Schema({
 		min: 0,
 		required: true,
 	},
+	videoLink: {
+		type: String,
+		required: true,
+		trim: true,
+	},
 	owner: {
 		type: mongoose.Schema.ObjectId,
 		required: true,

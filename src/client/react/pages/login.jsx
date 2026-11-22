@@ -43,7 +43,7 @@ const handleSignup = (e) => {
 
 
 // Login form React component
-const LoginForm = (props) => {
+const LoginForm = () => {
     return (
         <form id='loginForm'
             name='loginForm'
@@ -63,7 +63,7 @@ const LoginForm = (props) => {
 
 
 // Signup form React component
-const SignupForm = (props) => {
+const SignupForm = () => {
     return (
         <form id='signupForm'
             name='signupForm'
