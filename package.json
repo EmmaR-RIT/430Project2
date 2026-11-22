@@ -17,7 +17,7 @@
   "scripts": {
     "lint": "eslint ./src ",
     "pretest": "npm run lint",
-    "test": "echp \"Tests Complete!\"",
+    "test": "echo \"Tests Complete!\"",
     "dev": "webpack && node src/server/app.js",
     "nodemon": "nodemon --watch ./src src/server/app.js",
     "bundle": "webpack",
