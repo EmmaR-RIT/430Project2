@@ -4,7 +4,7 @@ import path from 'node:path';
 
 
 // path to the routes directory
-const routesDir = 'src/client/routes/';
+const routesDir = 'src/client/react/';
 
 
 export default {
